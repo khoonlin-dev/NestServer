@@ -28,55 +28,61 @@ export class OrderService {
 
     createOrder(param: PlaceOrderInfo) {
         // Validate product id
-        this.productRepository
-            // Can use findOne since we are finding by identity column
-            .findOne({
-                where: {
-                    id: param.productId,
-                },
-            })
-            .then((result) => {
-                if (!result) {
-                    return Promise.reject("Product cannot be found by id");
-                }
-                if (result.quantity <= 0) {
-                    return Promise.reject("Project is out of stock");
-                }
-                result.quantity -= 1;
-                const newOrder = this.orderRepository.create({
-                    product: result,
-                });
-                return Promise.all([
-                    this.productRepository.save(result),
-                    this.orderRepository.save(newOrder),
-                ]);
-            })
-            .then(() => {
-                return;
-            });
+        return (
+            this.productRepository
+                // Can use findOne since we are finding by identity column
+                .findOne({
+                    where: {
+                        id: param.productId,
+                    },
+                })
+                .then((result) => {
+                    if (!result) {
+                        return Promise.reject("Product cannot be found by id");
+                    }
+                    if (result.quantity <= 0) {
+                        return Promise.reject("Project is out of stock");
+                    }
+                    result.quantity -= 1;
+                    const newOrder = this.orderRepository.create({
+                        product: result,
+                    });
+                    return Promise.all([
+                        this.productRepository.save(result),
+                        this.orderRepository.save(newOrder),
+                    ]);
+                })
+                .then(() => {
+                    return;
+                })
+        );
     }
 
     updateOrder(param: UpdateOrder) {
         // Validate product id
-        this.orderRepository
-            // Can use findOne since we are finding by identity column
-            .findOne({
-                where: {
-                    id: param.orderId,
-                },
-            })
-            .then((result) => {
-                if (!result) {
-                    return Promise.reject("Order cannot be found by id");
-                }
-                if (result.status !== OrderStatus.OPENED) {
-                    return Promise.reject(`Order is already ${result.status}`);
-                }
-                result.status = param.status;
-                return this.orderRepository.save(result);
-            })
-            .then(() => {
-                return;
-            });
+        return (
+            this.orderRepository
+                // Can use findOne since we are finding by identity column
+                .findOne({
+                    where: {
+                        id: param.orderId,
+                    },
+                })
+                .then((result) => {
+                    if (!result) {
+                        return Promise.reject("Order cannot be found by id");
+                    }
+                    if (result.status !== OrderStatus.OPENED) {
+                        return Promise.reject(
+                            `Order is already ${result.status}`
+                        );
+                    }
+                    result.status = param.status;
+                    return this.orderRepository.save(result);
+                })
+                .then(() => {
+                    return;
+                })
+        );
     }
 }
