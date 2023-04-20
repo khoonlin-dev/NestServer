@@ -1,5 +1,4 @@
 import {
-    Body,
     Controller,
     Get,
     Query,
@@ -23,6 +22,7 @@ export class SearchController {
     }
 
     @Get("get")
+    @UsePipes(ValidationPipe)
     search(@Query() searchDto: SearchDto) {
         return this.searchService.search(searchDto);
     }

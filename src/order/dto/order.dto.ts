@@ -1,11 +1,4 @@
-import {
-    IsEnum,
-    IsInt,
-    IsNotEmpty,
-    IsOptional,
-    IsString,
-} from "class-validator";
-import { OrderStatus } from "src/typeorm/order.entity";
+import { IsInt, IsNotEmpty } from "class-validator";
 
 export class CreateOrderDto {
     @IsNotEmpty()
@@ -17,9 +10,4 @@ export class UpdateOrderDto {
     @IsNotEmpty()
     @IsInt()
     orderId: number;
-
-    @IsNotEmpty()
-    @IsInt()
-    @IsEnum(OrderStatus)
-    status: OrderStatus;
 }

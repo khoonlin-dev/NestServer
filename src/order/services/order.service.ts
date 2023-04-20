@@ -1,13 +1,15 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UsePipes, ValidationPipe } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Order, OrderView, Product } from "src/typeorm";
 import { OrderStatus } from "src/typeorm/order.entity";
 import { Repository } from "typeorm";
 import { UpdateOrderDto } from "../dto/order.dto";
 
-interface PlaceOrderInfo {
+type PlaceOrderInfo = {
     productId: number;
-}
+};
+
+type UpdateOrder = { orderId: number; status: OrderStatus };
 
 @Injectable()
 export class OrderService {
@@ -54,7 +56,7 @@ export class OrderService {
             });
     }
 
-    updateOrder(param: UpdateOrderDto) {
+    updateOrder(param: UpdateOrder) {
         // Validate product id
         this.orderRepository
             // Can use findOne since we are finding by identity column
