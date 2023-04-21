@@ -32,6 +32,13 @@ export class Product {
     color: Color;
 
     @Column({
+        name: "img_src",
+        nullable: false,
+        type: "varchar",
+    })
+    imgSrc: string;
+
+    @Column({
         name: "price",
         nullable: false,
         type: "numeric",

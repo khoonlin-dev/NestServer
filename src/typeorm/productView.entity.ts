@@ -7,6 +7,7 @@ import { ViewEntity, ViewColumn } from "typeorm";
             p.id, 
             m.name as model_name, 
             m.brand_id as brand_id,
+            p.img_src as img_src,
             b.name as brand_name, 
             col.name as color_name, 
             cat.name as category_name, 
@@ -36,6 +37,9 @@ export class ProductView {
 
     @ViewColumn({ name: "color_name" })
     colorName: string;
+
+    @ViewColumn({ name: "img_src" })
+    imgSrc: string;
 
     @ViewColumn({ name: "category_id" })
     categoryId: number;
