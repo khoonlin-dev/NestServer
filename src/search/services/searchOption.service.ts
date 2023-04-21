@@ -6,9 +6,9 @@ import { Repository } from "typeorm";
 type NumberMap = Record<number, string>;
 
 type SearchOption = {
-    color: NumberMap[];
-    brand: NumberMap[];
-    category: NumberMap[];
+    brand: Record<string, string>;
+    color: Record<string, string>;
+    category: Record<string, string>;
 };
 
 @Injectable()
@@ -23,28 +23,34 @@ export class SearchOptionService {
     ) {}
 
     getSearchOption(): Promise<SearchOption>;
-    getSearchOption(type: string): Promise<NumberMap[]>;
-    getSearchOption(type?: string): Promise<SearchOption | NumberMap[]> {
+    getSearchOption(type: string): Promise<Partial<SearchOption>>;
+    getSearchOption(type?: string): Promise<Partial<SearchOption>> {
         switch (type) {
             case "brand": {
                 return this.brandRepository.find().then((brandArr) => {
-                    return brandArr.map(({ id, name }) => {
-                        return { [id]: name };
+                    const brandMap = {};
+                    brandArr.map(({ id, name }) => {
+                        brandMap[id] = name;
                     });
+                    return { [type]: brandMap };
                 });
             }
             case "category": {
                 return this.categoryRepository.find().then((catArr) => {
-                    return catArr.map(({ id, name }) => {
-                        return { [id]: name };
+                    const catMap = {};
+                    catArr.map(({ id, name }) => {
+                        catMap[id] = name;
                     });
+                    return { [type]: catMap };
                 });
             }
             case "color": {
                 return this.colorRepository.find().then((colArr) => {
-                    return colArr.map(({ id, name }) => {
-                        return { [id]: name };
+                    const colorMap = {};
+                    colArr.map(({ id, name }) => {
+                        colorMap[id] = name;
                     });
+                    return { [type]: colorMap };
                 });
             }
             default: {
@@ -53,16 +59,22 @@ export class SearchOptionService {
                     this.brandRepository.find(),
                     this.categoryRepository.find(),
                 ]).then(([color, brand, category]) => {
+                    const colorMap = {};
+                    color.map(({ id, name }) => {
+                        colorMap[id] = name;
+                    });
+                    const catMap = {};
+                    category.map(({ id, name }) => {
+                        catMap[id] = name;
+                    });
+                    const brandMap = {};
+                    brand.map(({ id, name }) => {
+                        brandMap[id] = name;
+                    });
                     return {
-                        color: color.map(({ id, name }) => {
-                            return { [id]: name };
-                        }),
-                        brand: brand.map(({ id, name }) => {
-                            return { [id]: name };
-                        }),
-                        category: category.map(({ id, name }) => {
-                            return { [id]: name };
-                        }),
+                        color: colorMap,
+                        brand: brandMap,
+                        category: catMap,
                     };
                 });
             }
