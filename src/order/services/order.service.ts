@@ -18,7 +18,7 @@ export class OrderService {
         private readonly productRepository: Repository<Product>,
         @InjectRepository(Order)
         private readonly orderRepository: Repository<Order>,
-        @InjectRepository(Order)
+        @InjectRepository(OrderView)
         private readonly orderViewRepository: Repository<OrderView>
     ) {}
 
