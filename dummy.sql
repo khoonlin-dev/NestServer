@@ -29,9 +29,9 @@ INSERT INTO model (name, category_id, brand_id) VALUES
 INSERT INTO product (model_id, color_id, img_src, price, quantity) VALUES 
 (1, 4, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-blue?fmt=p-jpg', 8999.99, 50),
 (1, 5, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-midnight?fmt=p-jpg', 8699.99, 35),
-(1, 6, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-starlight?fmt=p-jpg', 8599.99,30)
-(1, 8, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-product-red?fmt=p-jpg', 8599.99,30),
-(2, 1, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-pink?fmt=p-jpg', 6599.99, 40),
+(1, 6, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-starlight?fmt=p-jpg', 8599.99,30),
+(1, 8, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-product-red?fmt=p-jpg', 8599.99,0),
+(2, 1, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-pink?fmt=p-jpg', 6599.99, 0),
 (2, 5, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-midnight?fmt=p-jpg', 6299.99,50),
 (2, 6, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-starlight?fmt=p-jpg', 6199.99,35),
 (2, 8, 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-product-red?fmt=p-jpg', 6199.99,30),
