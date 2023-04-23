@@ -1,9 +1,12 @@
-import { Injectable, UsePipes, ValidationPipe } from "@nestjs/common";
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Order, OrderView, Product } from "src/typeorm";
 import { OrderStatus } from "src/typeorm/order.entity";
 import { Repository } from "typeorm";
-import { UpdateOrderDto } from "../dto/order.dto";
 
 type PlaceOrderInfo = {
     productId: number;
@@ -38,10 +41,16 @@ export class OrderService {
                 })
                 .then((result) => {
                     if (!result) {
-                        return Promise.reject("Product cannot be found by id");
+                        throw new NotFoundException({
+                            errorId: param.productId,
+                            reason: `Product cannot be found`,
+                        });
                     }
                     if (result.quantity <= 0) {
-                        return Promise.reject("Project is out of stock");
+                        throw new ConflictException({
+                            outOfStock: true,
+                            reason: `Product is currently out of stock`,
+                        });
                     }
                     result.quantity -= 1;
                     const newOrder = this.orderRepository.create({
@@ -52,8 +61,10 @@ export class OrderService {
                         this.orderRepository.save(newOrder),
                     ]);
                 })
-                .then(() => {
-                    return;
+                .then(([Product]) => {
+                    return {
+                        outOfStock: Product.quantity === 0,
+                    };
                 })
         );
     }
@@ -70,18 +81,24 @@ export class OrderService {
                 })
                 .then((result) => {
                     if (!result) {
-                        return Promise.reject("Order cannot be found by id");
+                        throw new NotFoundException({
+                            errorId: param.orderId,
+                            reason: `Order cannot be found`,
+                        });
                     }
                     if (result.status !== OrderStatus.OPENED) {
-                        return Promise.reject(
-                            `Order is already ${result.status}`
-                        );
+                        throw new ConflictException({
+                            status: result.status,
+                            reason: `Order is already ${result.status}`,
+                        });
                     }
                     result.status = param.status;
                     return this.orderRepository.save(result);
                 })
-                .then(() => {
-                    return;
+                .then((order) => {
+                    return {
+                        status: order.status,
+                    };
                 })
         );
     }
